@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>taskflow-project</title>
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app__header">
+        <h1 class="app__title">TaskBoard Pro</h1>
+
+        <div class="app__actions">
+          <input
+            type="text"
+            class="input-add-column"
+            placeholder="New column name"
+          />
+
+          <button
+            class="btn btn--primary"
+            type="button"
+            data-action="add-column"
+          >
+            + Column
+          </button>
+        </div>
+      </header>
+
+      <main class="app__main">
+        <section class="board" id="board" aria-label="Kanban board"></section>
+      </main>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
