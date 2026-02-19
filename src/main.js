@@ -1,13 +1,13 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import { dispatch, subscribe } from './store/store.js';
+import { dispatch, getState, subscribe } from './store/store.js';
 import './style.css';
 import { refs } from './ui/refs.js';
-import { render } from './ui/render.js';
+import { render, renderTaskCreateForm } from './ui/render.js';
 
-function showEmptyColumnWarning() {
+function showEmptyColumnWarning(message) {
   iziToast.warning({
-    message: 'Пожалуйста, заполните поле формы для добавления новой колонки',
+    message: message,
     position: 'topRight',
     timeout: 3000,
   });
@@ -22,7 +22,9 @@ render();
 refs.buttonAddColumn.addEventListener('click', () => {
   const title = refs.input.value.trim();
   if (!title || title === '') {
-    showEmptyColumnWarning();
+    showEmptyColumnWarning(
+      'Пожалуйста, заполните поле формы для добавления новой колонки',
+    );
     return;
   }
 
@@ -116,4 +118,67 @@ refs.sectionContainer.addEventListener('click', (event) => {
       input.replaceWith(titleEl);
     }
   });
+});
+
+refs.sectionContainer.addEventListener('click', (event) => {
+  const addBtn = event.target.closest('.column__add-task');
+  if (!addBtn) {
+    return;
+  }
+  const columnEl = addBtn.closest('.column');
+  const columnId = columnEl.dataset.id;
+  const taskContainer = columnEl.querySelector('.tasks');
+
+  if (columnEl.querySelector('.task-create-form')) {
+    return;
+  }
+  taskContainer.insertAdjacentHTML(
+    'afterbegin',
+    renderTaskCreateForm(columnId),
+  );
+});
+
+refs.sectionContainer.addEventListener('click', (event) => {
+  const btnCancelInputForm = event.target.closest(
+    '.task-create-form__btn--cancel',
+  );
+  if (!btnCancelInputForm) {
+    return;
+  }
+  const formEl = btnCancelInputForm.closest('.task-create-form');
+  formEl.remove();
+});
+
+refs.sectionContainer.addEventListener('click', (event) => {
+  const saveBtn = event.target.closest('.task-create-form__btn--save');
+  if (!saveBtn) {
+    return;
+  }
+  const formEl = saveBtn.closest('.task-create-form');
+  if (!formEl) {
+    return;
+  }
+
+  const inputTitle = formEl.querySelector('.task-create-form__title');
+
+  if (!inputTitle.value.trim() || inputTitle.value.trim() === '') {
+    showEmptyColumnWarning(
+      'Пожалуйста, укажите название задачи для ее добавления',
+    );
+    return;
+  }
+  const formTextArea = formEl.querySelector('.task-create-form__description');
+  const optionForm = formEl.querySelector('.task-create-form__priority');
+  const formDeadline = formEl.querySelector('.task-create-form__deadline');
+  const columnIdForm = formEl.dataset.columnId;
+
+  const task = {
+    id: crypto.randomUUID(),
+    title: inputTitle.value.trim(),
+    description: formTextArea.value.trim(),
+    priority: optionForm.value.trim(),
+    deadline: formDeadline.value.trim(),
+    columnId: columnIdForm,
+  };
+  dispatch({ type: 'ADD_TASK', payload: task });
 });
