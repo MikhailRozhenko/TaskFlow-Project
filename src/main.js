@@ -1,6 +1,7 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import { dispatch, subscribe } from './store/store.js';
+import './style.css';
 import { refs } from './ui/refs.js';
 import { render } from './ui/render.js';
 

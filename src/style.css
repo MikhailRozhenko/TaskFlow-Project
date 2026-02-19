@@ -197,7 +197,7 @@ body {
 
 @media (max-width: 520px) {
   .board {
-    grid-auto-columns: 86vw;
+    grid-auto-columns: 85vw;
   }
 }
 
