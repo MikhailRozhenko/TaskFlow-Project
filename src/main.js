@@ -61,14 +61,30 @@ refs.sectionContainer.addEventListener('click', (event) => {
   const columnId = columnEl.dataset.id;
   const titleEl = columnEl.querySelector('.column__title');
   const oldTitle = titleEl.textContent;
+  if (columnEl.querySelector('.column__title-input')) {
+    return;
+  }
   const input = document.createElement('input');
+  input.classList.add('column__title-input');
   input.value = oldTitle;
-  titleEl.replaceWith(input);
-  input.focus();
-  input.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter') {
-      return;
-    }
+  function resizeInput() {
+    const span = document.createElement('span');
+    span.style.visibility = 'hidden';
+    span.style.position = 'absolute';
+    span.style.whiteSpace = 'pre';
+    const titleStyles = window.getComputedStyle(titleEl);
+    span.style.font = titleStyles.font;
+    span.textContent = input.value || ' ';
+    document.body.append(span);
+
+    const width = span.offsetWidth;
+
+    input.style.width = width + 12 + 'px';
+
+    span.remove();
+  }
+
+  function finishRename() {
     const newTitle = input.value.trim();
     if (!newTitle) {
       input.replaceWith(titleEl);
@@ -81,6 +97,22 @@ refs.sectionContainer.addEventListener('click', (event) => {
           title: newTitle,
         },
       });
+    }
+  }
+
+  resizeInput();
+  input.addEventListener('input', resizeInput);
+  titleEl.replaceWith(input);
+  input.focus();
+  input.addEventListener('blur', finishRename);
+
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      input.blur();
+    }
+    if (event.key === 'Escape') {
+      input.replaceWith(titleEl);
     }
   });
 });
