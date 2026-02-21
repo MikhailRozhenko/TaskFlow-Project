@@ -1,9 +1,14 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+import { getUsers } from './api/fake.api.js';
 import { dispatch, getState, subscribe } from './store/store.js';
 import './style.css';
 import { refs } from './ui/refs.js';
-import { render, renderTaskCreateForm } from './ui/render.js';
+import {
+  render,
+  renderTaskCreateForm,
+  renderTaskCreateFormEdit,
+} from './ui/render.js';
 
 function showEmptyColumnWarning(message) {
   iziToast.warning({
@@ -176,9 +181,95 @@ refs.sectionContainer.addEventListener('click', (event) => {
     id: crypto.randomUUID(),
     title: inputTitle.value.trim(),
     description: formTextArea.value.trim(),
-    priority: optionForm.value.trim(),
-    deadline: formDeadline.value.trim(),
+    priority: optionForm.value,
+    deadline: formDeadline.value,
     columnId: columnIdForm,
   };
   dispatch({ type: 'ADD_TASK', payload: task });
 });
+
+refs.sectionContainer.addEventListener('click', (event) => {
+  const deleteTaskBtn = event.target.closest('.task__delete');
+  if (!deleteTaskBtn) {
+    return;
+  }
+  const taskEl = deleteTaskBtn.closest('.task');
+  if (!taskEl) {
+    return;
+  }
+  const taskId = taskEl.dataset.taskId;
+  dispatch({ type: 'REMOVE_TASK', payload: taskId });
+});
+
+refs.sectionContainer.addEventListener('click', (event) => {
+  const addInputTaskRemove = event.target.closest('.task__edit');
+  if (!addInputTaskRemove) {
+    return;
+  }
+  const taskEl = addInputTaskRemove.closest('.task');
+  if (!taskEl) {
+    return;
+  }
+
+  const taskId = taskEl.dataset.taskId;
+  const { tasks } = getState();
+  const task = tasks.find((t) => String(t.id) === String(taskId));
+  taskEl.dataset.oldHtml = taskEl.innerHTML;
+  taskEl.innerHTML = renderTaskCreateFormEdit(task);
+});
+
+refs.sectionContainer.addEventListener('click', (event) => {
+  const btnSaveEdit = event.target.closest('.task-edit-form__save');
+  if (!btnSaveEdit) {
+    return;
+  }
+  const formEdit = btnSaveEdit.closest('.task-edit-form');
+  if (!formEdit) {
+    return;
+  }
+
+  const taskId = formEdit.dataset.taskId;
+
+  const inputTitle = formEdit.querySelector('.task-edit-form__title');
+
+  if (!inputTitle.value.trim() || inputTitle.value.trim() === '') {
+    showEmptyColumnWarning(
+      'Пожалуйста, укажите название задачи для ее изменения',
+    );
+    return;
+  }
+  const formTextArea = formEdit.querySelector('.task-edit-form__description');
+  const optionForm = formEdit.querySelector('.task-edit-form__priority');
+  const formDeadline = formEdit.querySelector('.task-edit-form__deadline');
+
+  const task = {
+    id: taskId,
+    title: inputTitle.value.trim(),
+    description: formTextArea.value.trim(),
+    priority: optionForm.value,
+    deadline: formDeadline.value,
+  };
+
+  dispatch({
+    type: 'UPDATE_TASK',
+    payload: task,
+  });
+});
+
+refs.sectionContainer.addEventListener('click', (event) => {
+  const cancelBtn = event.target.closest('.task-edit-form__cancel');
+  if (!cancelBtn) {
+    return;
+  }
+
+  const formEl = cancelBtn.closest('.task-edit-form');
+
+  const taskEl = formEl.closest('.task');
+
+  taskEl.innerHTML = taskEl.dataset.oldHtml;
+
+  delete taskEl.dataset.oldHtml;
+});
+
+
+

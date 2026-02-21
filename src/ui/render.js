@@ -9,9 +9,19 @@ export function render() {
         (task) => String(task.columnId) === String(column.id),
       );
 
-      console.log(column.title, columnTasks);
       const tasksMarkup = columnTasks
-        .map((task) => `<div class = 'tasks'>${task.title}</div>`)
+        .map(
+          (task) => `<div class="task" data-task-id="${task.id}">
+    <div class="task__title">${task.title}</div>
+    <div class="task__description">${task.description || ''}</div>
+    <div class="task__priority">Priority: ${task.priority}</div>
+    <div class="task__deadline">
+      ${task.deadline ? `Deadline: ${task.deadline}` : ''}
+    </div>
+	 <button class="task__edit">✏️</button>
+	 <button class="task__delete">🗑</button>
+  </div>`,
+        )
         .join('');
       return `<div class="column" data-id="${column.id}">
   <div class="column__header">
@@ -88,4 +98,41 @@ export function renderTaskCreateForm(columnId) {
   </div>
 </div>
 `;
+}
+
+export function renderTaskCreateFormEdit(task) {
+  return `<div class="task-edit-form" data-task-id="${task.id}">
+  <input
+    class="task-edit-form__input task-edit-form__title"
+    type="text"
+    value="${task.title}"
+  />
+
+  <textarea
+    class="task-edit-form__textarea task-edit-form__description"
+  >${task.description || ''}</textarea>
+
+  <select class="task-edit-form__select task-edit-form__priority">
+    <option value="low" ${task.priority === 'low' ? 'selected' : ''}>low</option>
+    <option value="medium" ${task.priority === 'medium' ? 'selected' : ''}>medium</option>
+    <option value="high" ${task.priority === 'high' ? 'selected' : ''}>high</option>
+  </select>
+
+  <input
+    class="task-edit-form__input task-edit-form__deadline"
+    type="date"
+    value="${task.deadline || ''}"
+  />
+
+  
+
+  <div class="task-edit-form__actions">
+    <button class="task-edit-form__btn task-edit-form__save" type="button">
+      Save
+    </button>
+    <button class="task-edit-form__btn task-edit-form__cancel" type="button">
+      Cancel
+    </button>
+  </div>
+</div>`;
 }

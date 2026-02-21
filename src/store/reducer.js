@@ -67,6 +67,30 @@ export function reducer(state, action) {
         ),
       };
 
+    case 'REMOVE_TASK':
+      return {
+        ...state,
+        tasks: state.tasks.filter(
+          (task) => String(task.id) !== String(action.payload),
+        ),
+      };
+
+    case 'UPDATE_TASK':
+      return {
+        ...state,
+        tasks: state.tasks.map((t) =>
+          String(t.id) === String(action.payload.id)
+            ? { ...t, ...action.payload }
+            : t,
+        ),
+      };
+
+    case 'SET_USERS':
+      return {
+        ...state,
+        users: action.payload,
+      };
+
     default:
       return state;
   }

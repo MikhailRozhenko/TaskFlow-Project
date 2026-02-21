@@ -157,10 +157,12 @@ body {
 }
 
 .task {
-  background: rgba(15, 23, 48, 0.9);
+  position: relative;
+  padding: 12px;
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 10px 10px 9px;
+  background: rgba(255, 255, 255, 0.04);
+  margin-bottom: 10px;
 }
 
 .task__title {
@@ -396,4 +398,128 @@ body {
   .task-create-form__row--grid {
     grid-template-columns: 1fr;
   }
+}
+
+.task__delete {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  border: none;
+  background: rgba(255, 0, 0, 0.15);
+  color: var(--text);
+
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+
+  cursor: pointer;
+  font-size: 14px;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+.task__delete:hover {
+  background: rgba(255, 0, 0, 0.35);
+}
+
+.task__delete:active {
+  transform: scale(0.95);
+}
+
+.task__edit {
+  position: absolute;
+  top: 8px;
+  right: 40px; /* левее кнопки удаления */
+
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+
+  cursor: pointer;
+  font-size: 14px;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+.task__edit:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.task__edit:active {
+  transform: scale(0.95);
+}
+
+.task-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-edit-form__input,
+.task-edit-form__textarea,
+.task-edit-form__select {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text);
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.task-edit-form__textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.task-edit-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.task-edit-form__btn {
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.task-edit-form__save {
+  background: rgba(46, 204, 113, 0.35);
+  border: 1px solid rgba(46, 204, 113, 0.6);
+  color: var(--text);
+  font-weight: 800;
+}
+
+.task-edit-form__save:hover {
+  background: rgba(46, 204, 113, 0.55);
+}
+
+.task-edit-form__save:active {
+  transform: scale(0.97);
+}
+
+.task-edit-form__cancel {
+  background: rgba(149, 165, 166, 0.25);
+  border: 1px solid rgba(149, 165, 166, 0.6);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.task-edit-form__cancel:hover {
+  background: rgba(231, 76, 60, 0.45);
+}
+
+.task-edit-form__cancel:active {
+  transform: scale(0.97);
 }
