@@ -523,3 +523,24 @@ body {
 .task-edit-form__cancel:active {
   transform: scale(0.97);
 }
+
+.task-create-form__assignee {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text);
+  font-size: 13px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.task-create-form__assignee:focus {
+  outline: none;
+  border-color: rgba(46, 204, 113, 0.6);
+}
+
+.task-create-form__assignee:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+}

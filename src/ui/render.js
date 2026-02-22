@@ -2,7 +2,7 @@ import { getState } from '../store/store.js';
 import { refs } from './refs.js';
 
 export function render() {
-  const { columns, tasks } = getState();
+  const { columns, tasks, users } = getState();
   const markup = columns
     .map((column) => {
       const columnTasks = tasks.filter(
@@ -10,8 +10,10 @@ export function render() {
       );
 
       const tasksMarkup = columnTasks
-        .map(
-          (task) => `<div class="task" data-task-id="${task.id}">
+        .map((task) => {
+          const user = users.find((u) => String(u.id) === String(task.userId));
+          const assigneeName = user ? user.name : 'Unassigned';
+          return `<div class="task" data-task-id="${task.id}">
     <div class="task__title">${task.title}</div>
     <div class="task__description">${task.description || ''}</div>
     <div class="task__priority">Priority: ${task.priority}</div>
@@ -20,8 +22,8 @@ export function render() {
     </div>
 	 <button class="task__edit">✏️</button>
 	 <button class="task__delete">🗑</button>
-  </div>`,
-        )
+  </div>`;
+        })
         .join('');
       return `<div class="column" data-id="${column.id}">
   <div class="column__header">
@@ -51,6 +53,10 @@ export function render() {
 }
 
 export function renderTaskCreateForm(columnId) {
+  const { users } = getState();
+  const usersOptionsMarkup = users
+    .map((user) => `<option value="${user.id}">${user.name}</option>`)
+    .join('');
   return `<div class="task-create-form" data-column-id="${columnId}">
   <div class="task-create-form__row">
     <input
@@ -87,6 +93,14 @@ export function renderTaskCreateForm(columnId) {
       />
     </label>
   </div>
+     <label class="task-create-form__field">
+  <span class="task-create-form__label">Assignee</span>
+  <select class="task-create-form__assignee">
+    <option value="">Unassigned</option>
+    ${usersOptionsMarkup}
+  </select>
+</label>
+ 
 
   <div class="task-create-form__actions">
     <button class="task-create-form__btn task-create-form__btn--save" type="button">
@@ -101,6 +115,13 @@ export function renderTaskCreateForm(columnId) {
 }
 
 export function renderTaskCreateFormEdit(task) {
+  const { users } = getState();
+  const usersOptionsMarkup = users
+    .map(
+      (user) =>
+        `<option value="${user.id}" ${String(user.id) === String(task.userId) ? 'selected' : ''}>${user.name}</option>`,
+    )
+    .join('');
   return `<div class="task-edit-form" data-task-id="${task.id}">
   <input
     class="task-edit-form__input task-edit-form__title"
@@ -124,7 +145,13 @@ export function renderTaskCreateFormEdit(task) {
     value="${task.deadline || ''}"
   />
 
-  
+  <label class="task-edit-form__field">
+  <span class="task-edit-form__label">Assignee</span>
+  <select class="task-edit-form__assignee">
+    <option value="">Unassigned</option>
+    ${usersOptionsMarkup}
+  </select>
+</label>
 
   <div class="task-edit-form__actions">
     <button class="task-edit-form__btn task-edit-form__save" type="button">

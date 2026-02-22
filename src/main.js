@@ -176,7 +176,8 @@ refs.sectionContainer.addEventListener('click', (event) => {
   const optionForm = formEl.querySelector('.task-create-form__priority');
   const formDeadline = formEl.querySelector('.task-create-form__deadline');
   const columnIdForm = formEl.dataset.columnId;
-
+  const assigneeSelect = formEl.querySelector('.task-create-form__assignee');
+  const userId = assigneeSelect ? assigneeSelect.value : '';
   const task = {
     id: crypto.randomUUID(),
     title: inputTitle.value.trim(),
@@ -184,6 +185,7 @@ refs.sectionContainer.addEventListener('click', (event) => {
     priority: optionForm.value,
     deadline: formDeadline.value,
     columnId: columnIdForm,
+    userId: userId || null,
   };
   dispatch({ type: 'ADD_TASK', payload: task });
 });
@@ -241,6 +243,8 @@ refs.sectionContainer.addEventListener('click', (event) => {
   const formTextArea = formEdit.querySelector('.task-edit-form__description');
   const optionForm = formEdit.querySelector('.task-edit-form__priority');
   const formDeadline = formEdit.querySelector('.task-edit-form__deadline');
+  const assigneeSelect = formEdit.querySelector('.task-edit-form__assignee');
+  const userId = assigneeSelect ? assigneeSelect.value : '';
 
   const task = {
     id: taskId,
@@ -248,6 +252,7 @@ refs.sectionContainer.addEventListener('click', (event) => {
     description: formTextArea.value.trim(),
     priority: optionForm.value,
     deadline: formDeadline.value,
+    userId: userId || null,
   };
 
   dispatch({
@@ -271,5 +276,10 @@ refs.sectionContainer.addEventListener('click', (event) => {
   delete taskEl.dataset.oldHtml;
 });
 
+async function initUsers() {
+  const users = await getUsers();
+  dispatch({ type: 'SET_USERS', payload: users });
+  console.log(getState());
+}
 
-
+initUsers();
