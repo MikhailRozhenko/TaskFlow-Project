@@ -20,6 +20,7 @@ export function render() {
     <div class="task__deadline">
       ${task.deadline ? `Deadline: ${task.deadline}` : ''}
     </div>
+	   <div class="task__assignee">Assignee: ${assigneeName}</div>
 	 <button class="task__edit">✏️</button>
 	 <button class="task__delete">🗑</button>
   </div>`;
@@ -96,7 +97,7 @@ export function renderTaskCreateForm(columnId) {
      <label class="task-create-form__field">
   <span class="task-create-form__label">Assignee</span>
   <select class="task-create-form__assignee">
-    <option value="">Unassigned</option>
+<option value="">Unassigned</option>
     ${usersOptionsMarkup}
   </select>
 </label>
@@ -148,7 +149,7 @@ export function renderTaskCreateFormEdit(task) {
   <label class="task-edit-form__field">
   <span class="task-edit-form__label">Assignee</span>
   <select class="task-edit-form__assignee">
-    <option value="">Unassigned</option>
+    <option value="" ${!task.userId ? 'selected' : ''}>Unassigned</option>
     ${usersOptionsMarkup}
   </select>
 </label>
