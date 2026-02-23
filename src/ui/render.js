@@ -2,13 +2,46 @@ import { getState } from '../store/store.js';
 import { refs } from './refs.js';
 
 export function render() {
-  const { columns, tasks, users } = getState();
+  const { columns, tasks, users, filters } = getState();
+
+  const userSelect = document.querySelector('.filters__user');
+
+  if (userSelect) {
+    userSelect.innerHTML = `
+    <option value="">All assignees</option>
+    ${users
+      .map(
+        (user) => `
+          <option value="${user.id}" ${
+            String(filters.userId) === String(user.id) ? 'selected' : ''
+          }>
+            ${user.name}
+          </option>
+        `,
+      )
+      .join('')}
+  `;
+  }
   const markup = columns
     .map((column) => {
-      const columnTasks = tasks.filter(
-        (task) => String(task.columnId) === String(column.id),
-      );
-
+      const columnTasks = tasks
+        .filter((task) => String(task.columnId) === String(column.id))
+        .filter((task) =>
+          (task.title || '')
+            .toLowerCase()
+            .includes((filters.search || '').toLowerCase()),
+        )
+        .filter(
+          (task) => !filters.priority || task.priority === filters.priority,
+        )
+        .filter((task) => {
+          if (!filters.userId) return true;
+          return String(task.userId) === String(filters.userId);
+        })
+        .filter((task) => {
+          if (!filters.status) return true;
+          return String(task.columnId) === String(filters.status);
+        });
       const tasksMarkup = columnTasks
         .map((task) => {
           const user = users.find((u) => String(u.id) === String(task.userId));

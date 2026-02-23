@@ -91,6 +91,53 @@ export function reducer(state, action) {
         users: action.payload,
       };
 
+    case 'SET_SEARCH':
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          search: action.payload,
+        },
+      };
+
+    case 'SET_PRIORITY_FILTER':
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          priority: action.payload,
+        },
+      };
+
+    case 'SET_USER_FILTER':
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          userId: action.payload,
+        },
+      };
+
+    case 'SET_STATUS_FILTER':
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          status: action.payload,
+        },
+      };
+
+    case 'RESET_FILTERS':
+      return {
+        ...state,
+        filters: {
+          search: '',
+          priority: null,
+          userId: null,
+          status: null,
+        },
+      };
+
     default:
       return state;
   }

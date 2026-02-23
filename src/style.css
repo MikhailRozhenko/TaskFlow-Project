@@ -296,8 +296,10 @@ body {
 
 .app__actions {
   display: flex;
-  gap: 10px;
   align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
 }
 
 .task-create-form {
@@ -543,4 +545,202 @@ body {
 
 .task-create-form__assignee:hover {
   border-color: rgba(255, 255, 255, 0.4);
+}
+
+.app-actions__left {
+  margin-right: auto;
+  align-items: center;
+  flex: 1;
+  max-width: 320px;
+  margin-right: 50px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  min-width: 0;
+}
+
+.app-actions__right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filters__search {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  outline: none;
+  backdrop-filter: blur(6px);
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 220px;
+}
+
+.filters__search::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.filters__search:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.filters__search:focus {
+  border-color: #4c8dff;
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 0 0 3px rgba(76, 141, 255, 0.2);
+}
+
+.filters__priority {
+  padding: 10px 14px;
+  font-size: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 160px;
+}
+
+.filters__priority:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.filters__priority:focus {
+  border-color: #4c8dff;
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 0 0 3px rgba(76, 141, 255, 0.2);
+}
+
+.filters__priority option {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.filters__user {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: 10px 40px 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #1e293b;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.filters__user:hover {
+  border-color: #3b82f6;
+}
+
+.filters__user:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.filters__user {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='12' height='12' fill='white' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.5 7l4.5 4 4.5-4' stroke='white' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+}
+
+.filters__priority,
+.filters__user {
+  flex-shrink: 0;
+}
+
+.filters__status {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: 10px 38px 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #1e293b;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='12' height='12' fill='white' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.5 7l4.5 4 4.5-4' stroke='white' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+
+  min-width: 150px;
+}
+
+.filters__status:hover {
+  border-color: #3b82f6;
+}
+
+.filters__status:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.filters__search,
+.filters__priority,
+.filters__user,
+.filters__status {
+  height: 40px;
+}
+
+.filters__reset {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid #475569;
+
+  background: yellow;
+  color: black;
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Ховер */
+.filters__reset:hover {
+  background: #1e293b;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+/* Активное нажатие */
+.filters__reset:active {
+  transform: translateY(1px);
+}
+
+/* Фокус */
+.filters__reset:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.task-create-form__priority option {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.task-create-form__assignee option {
+  background: #0f172a;
+  color: #ffffff;
 }

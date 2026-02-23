@@ -6,6 +6,7 @@ export const initialState = {
     search: '',
     priority: null,
     userId: null,
+    status: null,
   },
   ui: {
     loading: false,

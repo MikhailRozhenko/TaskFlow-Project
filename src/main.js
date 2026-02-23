@@ -20,7 +20,9 @@ function showEmptyColumnWarning(message) {
 
 subscribe(render);
 
-dispatch({ type: 'INIT_COLUMNS' });
+if (getState().columns.length === 0) {
+  dispatch({ type: 'INIT_COLUMNS' });
+}
 
 render();
 
@@ -283,3 +285,31 @@ async function initUsers() {
 }
 
 initUsers();
+
+refs.searchInput.addEventListener('input', (e) => {
+  dispatch({ type: 'SET_SEARCH', payload: e.target.value });
+});
+
+refs.prioritySelect.addEventListener('change', (e) => {
+  dispatch({ type: 'SET_PRIORITY_FILTER', payload: e.target.value || null });
+});
+
+refs.userSelect.addEventListener('change', (e) => {
+  dispatch({ type: 'SET_USER_FILTER', payload: e.target.value || null });
+});
+
+refs.statusSelect.addEventListener('change', (e) => {
+  dispatch({
+    type: 'SET_STATUS_FILTER',
+    payload: e.target.value || null,
+  });
+});
+
+refs.resetFiltersBtn.addEventListener('click', () => {
+  dispatch({ type: 'RESET_FILTERS' });
+
+  refs.searchInput.value = '';
+  refs.prioritySelect.value = '';
+  refs.userSelect.value = '';
+  refs.statusSelect.value = '';
+});

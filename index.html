@@ -13,19 +13,48 @@
         <h1 class="app__title">TaskBoard Pro</h1>
 
         <div class="app__actions">
-          <input
-            type="text"
-            class="input-add-column"
-            placeholder="New column name"
-          />
+          <div class="app-actions__left">
+            <input
+              class="filters__search"
+              type="text"
+              placeholder="Search by title..."
+            />
 
-          <button
-            class="btn btn--primary"
-            type="button"
-            data-action="add-column"
-          >
-            + Column
-          </button>
+            <select class="filters__priority">
+              <option value="">All priorities</option>
+              <option value="low">low</option>
+              <option value="medium">medium</option>
+              <option value="high">high</option>
+            </select>
+
+            <select class="filters__user"></select>
+
+            <select class="filters__status">
+              <option value="">All statuses</option>
+              <option value="1">Backlog</option>
+              <option value="2">Todo</option>
+              <option value="3">In Progress</option>
+              <option value="4">Review</option>
+              <option value="5">Done</option>
+            </select>
+            <button class="filters__reset" type="button">Reset</button>
+          </div>
+
+          <div class="app-actions__right">
+            <input
+              type="text"
+              class="input-add-column"
+              placeholder="New column name"
+            />
+
+            <button
+              class="btn btn--primary"
+              type="button"
+              data-action="add-column"
+            >
+              + Column
+            </button>
+          </div>
         </div>
       </header>
 
